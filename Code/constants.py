@@ -5,6 +5,7 @@ INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District'
 MEAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Mean'
 MEDIAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Median'
 
+
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',
                     'christchurch': 'bournemouth, christchurch and poole', 'castle morpeth': 'northumberland',
                     'east dorset': 'dorset', 'forest heath': 'west suffolk', 'weymouth and portland': 'dorset',

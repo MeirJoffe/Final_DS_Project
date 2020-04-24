@@ -4,10 +4,15 @@ import os
 import re
 from Code.constants import *
 import locale
-locale.setlocale( locale.LC_ALL, 'en_US.UTF-8' )
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
 def get_duplicates_list(df):
+    """
+    A function that returns the items in the column that appear more than once.
+    :param df: The dataframe whose column should be inspected.
+    :return: A list containing the items appearing multiple times.
+    """
     u, c = np.unique(list(df['Description']), return_counts=True)
     return list(u[c > 1])
 

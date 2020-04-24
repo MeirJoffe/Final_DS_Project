@@ -57,7 +57,6 @@ data_years = [data_2018, data_2017, data_2016, data_2015, data_2014, data_2013, 
               data_2009, data_2008, data_2007, data_2006, data_2005, data_2004, data_2003, data_2002, data_2001,
               data_2000, data_1999]
 
-
 income_districts = df[df.keys()[-14]].unique()[7:-35]
 
 income_districts = [re.sub(' ua', '', income_districts[i].lower().strip()) for i in range(len(income_districts))]
