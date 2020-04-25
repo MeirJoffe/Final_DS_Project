@@ -45,7 +45,10 @@ def get_mean_and_median_years():
     mean_years = []
     median_years = []
     for i in range(1999, 2019):
-        print(i)
         mean_years.append(get_year_df(i, 'Mean'))
         median_years.append(get_year_df(i, 'Median'))
     return mean_years, median_years
+
+
+means, medians = get_mean_and_median_years()
+print(len(means), len(medians))

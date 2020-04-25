@@ -4,6 +4,7 @@ ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Original_Parts'
 INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District'
 MEAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Mean'
 MEDIAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Median'
+PROSPERITY_DATA_PATH = DATA_PATH + '\\Prosperity'
 
 
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',
