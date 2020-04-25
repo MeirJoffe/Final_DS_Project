@@ -1,11 +1,4 @@
-import pandas as pd
-import numpy as np
-import os
-import re
 from Code.constants import *
-import locale
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-
 
 def get_duplicates_list(df):
     """

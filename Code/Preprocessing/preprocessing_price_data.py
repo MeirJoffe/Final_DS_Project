@@ -1,9 +1,4 @@
-import pandas as pd
-import numpy as np
-import os
-import re
 from Code.constants import *
-
 
 price_paid_headers = ['tid', 'price', 'date', 'postcode', 'property_type', 'old_new', 'duration', 'paon', 'saon',
                       'street', 'locality', 'city', 'district', 'county', 'ppd_type', 'status']

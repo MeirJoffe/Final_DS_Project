@@ -1,7 +1,3 @@
-import pandas as pd
-import numpy as np
-import os
-import re
 from Code.constants import *
 
 data_2018 = pd.read_csv(os.path.join(PRICE_DATA_PATH, r'pp-2018.csv'), index_col='id')

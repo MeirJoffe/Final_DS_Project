@@ -1,3 +1,12 @@
+import pandas as pd
+import numpy as np
+import os
+import re
+import locale
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+
+
+
 DATA_PATH = 'C:\\Users\\Meir\\PycharmProjects\\Final_DS_Project\\Data'
 PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
 ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Original_Parts'
@@ -31,3 +40,4 @@ district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemou
                     'wrekin': 'telford and wrekin', 'north bedfordshire': 'bedford',
                     'east yorkshire': 'east riding of yorkshire'}
 
+district_region_map = {}
