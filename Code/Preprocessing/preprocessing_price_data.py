@@ -24,17 +24,27 @@ def fix_index_col(file_name):
     df.to_csv(os.path.join(PRICE_DATA_PATH, file_name))
 
 
-# Add headers to each of the pricing data files.
-for i in range(2013, 2019):
-    add_headers('pp-{}.csv'.format(i), PRICE_DATA_PATH, price_paid_headers)
-for j in range(1999, 2013):
-    add_headers('pp-{}-part1.csv'.format(j), ORIGINAL_PRICE_DATA_PATH, price_paid_headers)
-    add_headers('pp-{}-part2.csv'.format(j), ORIGINAL_PRICE_DATA_PATH, price_paid_headers)
+def add_time_from_brexit(df):
+    time_from_brexit = []
+    for i in range(len(df)):
+        time_from_brexit.append((date(*list(map(int, df['date'].loc[i].split(' ')[0].split('-')))) -
+                                 date(2016, 6, 24)).days)
+    df['brexit'] = time_from_brexit
+    return df
 
-# Combine files that each represent only half of the year's data
-for k in range(1999, 2013):
-    combine_price_parts('pp-{}-part1.csv'.format(k), 'pp-{}-part2.csv'.format(k))
 
-# Set the index column
-for l in range(2013, 2019):
-    fix_index_col('pp-{}.csv'.format(l))
+# # Add headers to each of the pricing data files.
+# for i in range(2013, 2019):
+#     add_headers('pp-{}.csv'.format(i), PRICE_DATA_PATH, price_paid_headers)
+# for j in range(1999, 2013):
+#     add_headers('pp-{}-part1.csv'.format(j), ORIGINAL_PRICE_DATA_PATH, price_paid_headers)
+#     add_headers('pp-{}-part2.csv'.format(j), ORIGINAL_PRICE_DATA_PATH, price_paid_headers)
+#
+# # Combine files that each represent only half of the year's data
+# for k in range(1999, 2013):
+#     combine_price_parts('pp-{}-part1.csv'.format(k), 'pp-{}-part2.csv'.format(k))
+#
+# # Set the index column
+# for l in range(2013, 2019):
+#     fix_index_col('pp-{}.csv'.format(l))
+
