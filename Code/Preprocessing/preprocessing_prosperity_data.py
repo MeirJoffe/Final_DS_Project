@@ -1,7 +1,5 @@
 from Code.constants import *
 
-prosperity_df = pd.read_csv(os.path.join(PROSPERITY_DATA_PATH, '2016UKProsperityScores.csv'), header=[1])
-
 
 def get_duplicates_list(df):
     """
@@ -54,11 +52,11 @@ def create_district_region_map(df):
             if loc_auths[j] in district_changes:
                 loc_auths[j] = district_changes[loc_auths[j]]
         loc_auths = np.unique(loc_auths)
-        district_region_map[reg] = set(loc_auths)
+        dist_reg_map[reg] = set(loc_auths)
 
 
 # print(prosperity_df.index)
 # print(get_duplicates_list(prosperity_df))
 # print(preprocess_prosperity_df(prosperity_df).iloc[-8:])
 # print(add_new_row(preprocess_prosperity_df(prosperity_df), 'londinium', 'North East'))
-create_district_region_map(prosperity_df)
+# create_district_region_map(prosperity_df)

@@ -1,5 +1,6 @@
 from Code.constants import *
 
+
 price_paid_headers = ['tid', 'price', 'date', 'postcode', 'property_type', 'old_new', 'duration', 'paon', 'saon',
                       'street', 'locality', 'city', 'district', 'county', 'ppd_type', 'status']
 
@@ -24,6 +25,25 @@ def fix_index_col(file_name):
     df.to_csv(os.path.join(PRICE_DATA_PATH, file_name))
 
 
+def fill_missing_districts(df):
+    for i in range(len(df)):
+        if pd.isna(df['district'][i]):
+            df_city = df.loc[df['city'] == df['city'][i]]
+            df['district'][i] = df_city['district'].mode().values[0]
+    return df
+
+
+def preprocess_price_df(df):
+    df['district'] = df['district'].str.lower().str.strip()
+    df['county'] = df['county'].str.lower().str.strip()
+    for i in range(len(df)):
+        if i % 100000 == 0:
+            print(i)
+        if df['district'][i] in district_changes:
+            df['district'][i] = district_changes[df['district'][i]]
+    return df
+
+
 def add_time_from_brexit(df):
     time_from_brexit = []
     for i in range(len(df)):
@@ -31,6 +51,21 @@ def add_time_from_brexit(df):
                                  date(2016, 6, 24)).days)
     df['brexit'] = time_from_brexit
     return df
+
+
+def preprocess_price_once(year):
+    df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH, 'pp-{}.csv'.format(year)), index_col='id')
+    df_year = fill_missing_districts(df_year)
+    df_year = preprocess_price_df(df_year)
+    df_year = add_time_from_brexit(df_year)
+    print('Done preprocessing for year {}'.format(year))
+    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+
+
+def preprocess_price_all_years():
+    for i in range(1999, 2019):
+        preprocess_price_once(i)
+
 
 
 # # Add headers to each of the pricing data files.
@@ -48,3 +83,5 @@ def add_time_from_brexit(df):
 # for l in range(2013, 2019):
 #     fix_index_col('pp-{}.csv'.format(l))
 
+# # Perform preprocessing for all years
+# preprocess_price_all_years()
