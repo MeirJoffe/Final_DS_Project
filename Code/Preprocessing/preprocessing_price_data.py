@@ -45,27 +45,11 @@ def preprocess_price_df(df):
 
 
 def add_time_from_brexit(df):
-    time_from_brexit = []
+    from_brexit = []
     for i in range(len(df)):
-        time_from_brexit.append((date(*list(map(int, df['date'].loc[i].split(' ')[0].split('-')))) -
-                                 date(2016, 6, 24)).days)
-    df['brexit'] = time_from_brexit
+        from_brexit.append((date(*list(map(int, df['date'].loc[i].split(' ')[0].split('-')))) - date(2016, 6, 24)).days)
+    df['brexit'] = from_brexit
     return df
-
-
-def preprocess_price_once(year):
-    df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH, 'pp-{}.csv'.format(year)), index_col='id')
-    df_year = fill_missing_districts(df_year)
-    df_year = preprocess_price_df(df_year)
-    df_year = add_time_from_brexit(df_year)
-    print('Done preprocessing for year {}'.format(year))
-    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
-
-
-def preprocess_price_all_years():
-    for i in range(1999, 2019):
-        preprocess_price_once(i)
-
 
 
 # # Add headers to each of the pricing data files.
@@ -82,6 +66,3 @@ def preprocess_price_all_years():
 # # Set the index column
 # for l in range(2013, 2019):
 #     fix_index_col('pp-{}.csv'.format(l))
-
-# # Perform preprocessing for all years
-# preprocess_price_all_years()

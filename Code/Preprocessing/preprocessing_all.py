@@ -17,41 +17,36 @@ def get_income_data():
     return means, medians
 
 
-# for yr in range(1999, 2019):
-#     # print('c1 - {}'.format(yr))
-#     # # yr = 2015
-#     # df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(yr)), index_col='id')
-#     # print('c2 - {}'.format(yr))
-#     mean_yr = get_year_df(yr, 'Mean')
-#     median_yr = get_year_df(yr, 'Median')
-#     # print('c3 - {}'.format(yr))
-#     # df_yr = df_yr.join(mean_yr['Mean'], 'district').join(median_yr['Median'], 'district')
-#     # mean_med_missing = set()
-#     mean_missing = set()
-#     med_missing = set()
-#     # for i in range(len(mean_yr)):
-#     #     if pd.isna(mean_yr['Mean'][i]) or mean_yr['Mean'][i] == 'x':
-#     #         mean_missing.add(mean_yr.iloc[i])
-#     # for i in range(len(median_yr)):
-#     #     if pd.isna(median_yr['Median'][i]) or median_yr['Median'][i] == 'x':
-#     #         med_missing.add(median_yr.iloc[i])
-#     # for i in range(len(df_yr)):
-#     #     if pd.isna(df_yr['Mean'][i]):
-#     #         mean_med_missing.add(df_yr['district'][i])
-#     print(yr, mean_missing)
-#     print(yr, med_missing)
+def join_income_data(df, year):
+    mean_yr = get_year_df(year, 'Mean')
+    median_yr = get_year_df(year, 'Median')
+    df = df.join(mean_yr['Mean'], 'district').join(median_yr['Median'], 'district')
+    return df
 
-# mean_2018 = get_year_df(2018, 'Mean')
-# mean_2017 = get_year_df(2017, 'Mean')
-# mean_2018 = add_fix_change_pct(mean_2018, mean_2017, 'Mean')
-# df_means_years, df_meds_years = get_mean_and_median_years()
-# for i in range(1, len(df_means_years)):
-#     df_means_years[i] = add_fix_change_pct(df_means_years[i], df_means_years[i-1], 'Mean')
-#     df_meds_years[i] = add_fix_change_pct(df_meds_years[i], df_meds_years[i-1], 'Median')
-# import xlrd
-filename = 'C:\\Users\\Meir\\PycharmProjects\\Final_DS_Project\\Data\\Income_By_District\\gaewlamedianandmeantimeseries199920166901.xls'
-# workbook = xlrd.open_workbook(filename)
-# worksheet = workbook.sheet_by_index(0)
-# convert_2018_to_csv(filename)
-split_1999_2017(filename)
-x = 2
+
+def join_prosperity_data(df, prosperity_df):
+    for dist in set(df['district']):
+        if dist not in list(prosperity_df.index):
+            prosperity_df = add_new_row(prosperity_df, dist, dist_reg_map[dist])
+    df = df.join(prosperity_df, 'district')
+    return df
+
+
+def preprocess_price_once(year, prosperity_df):
+    df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH, 'pp-{}.csv'.format(year)), index_col='id')
+    df_year = fill_missing_districts(df_year)
+    df_year = preprocess_price_df(df_year)
+    df_year = add_time_from_brexit(df_year)
+    df_year = join_income_data(df_year, year)
+    df_year = join_prosperity_data(df_year, prosperity_df)
+    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+
+
+def preprocess_price_all_years():
+    prosperity_df = get_prosperity_df()
+    for i in range(1999, 2019):
+        preprocess_price_once(i, prosperity_df)
+
+
+# # Perform preprocessing for all years
+# preprocess_price_all_years()

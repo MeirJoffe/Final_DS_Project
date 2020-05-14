@@ -8,8 +8,14 @@ locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
 DATA_PATH = 'C:\\Users\\Meir\\PycharmProjects\\Final_DS_Project\\Data'
-PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
-ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Original_Parts'
+ALT_DATA_PATH = 'E:\\College\\Year_4\\Semester_2\\Final_Project\\Data_Files'
+
+# PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
+PRICE_DATA_PATH = ALT_DATA_PATH + '\\Regular'
+
+# ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Original_Parts'
+ORIGINAL_PRICE_DATA_PATH = ALT_DATA_PATH + '\\Original'
+
 PREPROCESSED_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Preprocessed'
 INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District'
 MEAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Mean'
@@ -45,7 +51,10 @@ district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemou
                     'llanelli': 'carmarthenshire', 'newtown and welshpool': 'powys', 'rhyl': 'denbighshire',
                     'pwllheli and porthmadog': 'gwynedd', 'pembroke and tenby': 'pembrokeshire', 'colwyn bay': 'conwy',
                     'south bucks': 'buckinghamshire', 'aylesbury vale': 'buckinghamshire', 'wycombe': 'buckinghamshire',
-                    'east': 'east of england', 'chiltern': 'buckinghamshire'}
+                    'east': 'east of england', 'kingston upon hull, city of': 'city of kingston upon hull',
+                    'vale of glamorgan': 'the vale of glamorgan', 'rhondda cynon taf': 'rhondda cynon taff',
+                    'chiltern': 'buckinghamshire', 'kings lynn and west norfolk': "king's lynn and west norfolk",
+                    'herefordshire, county of': 'herefordshire'}
 
 dist_reg_map = {'adur': 'south east', 'allerdale': 'north west', 'amber valley': 'east midlands', 'arun': 'south east',
                 'ashfield': 'east midlands', 'babergh': 'east of england', 'barking and dagenham': 'london',
@@ -137,6 +146,8 @@ dist_reg_map = {'adur': 'south east', 'allerdale': 'north west', 'amber valley':
                 'windsor and maidenhead': 'south east', 'wirral': 'north west', 'woking': 'south east',
                 'wokingham': 'south east', 'worcester': 'west midlands', 'worthing': 'south east',
                 'wychavon': 'west midlands', 'wyre': 'north west', 'wyre forest': 'west midlands'}
+
+reg_dist_map = {}
 
 regions_of_england = ['north east', 'north west', 'yorkshire and the humber', 'west midlands', 'east midlands',
                       'east of england', 'london', 'south east', 'south west']

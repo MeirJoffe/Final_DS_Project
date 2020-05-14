@@ -198,7 +198,7 @@ def get_year_df(year, mean_med_str):
             df_year['Description'][i] = district_changes[df_year['Description'][i]]
         df_year[mean_med_str][i] = locale.atoi(df_year[mean_med_str][i])
 
-    df_districts = set(df_year.index)
+    df_districts = set(df_year['Description'].values)
     for region in regions_of_england:
         if region not in df_districts:
             df_year = duplicate_row(df_year, region, 'england', mean_med_str)
@@ -236,4 +236,10 @@ def get_mean_and_median_years():
         mean_years.append(get_year_df(i, 'Mean'))
         median_years.append(get_year_df(i, 'Median'))
     return mean_years, median_years
+
+
+# filename_1999_2017 = os.path.join(INCOME_DATA_PATH, 'gaewlamedianandmeantimeseries199920166901.xls')
+# split_1999_2017(filename_1999_2017)
+# filename_2018 = os.path.join(INCOME_DATA_PATH, 'PROV - Home Travel To Work Area Table 12.7a   Annual pay - Gross 2018.xls')
+# convert_2018_to_csv(filename_2018)
 
