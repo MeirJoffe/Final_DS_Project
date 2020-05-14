@@ -12,8 +12,9 @@ def get_duplicates_list(df):
 
 
 def preprocess_prosperity_df(prosp_df):
+    prosp_df['LocalAuthority'] = prosp_df['LocalAuthority'].str.lower().str.strip().str.replace('.', '')
+    prosp_df['Region'] = prosp_df['Region'].str.lower().str.strip()
     for i in range(len(prosp_df)):
-        prosp_df['LocalAuthority'][i] = prosp_df['LocalAuthority'][i].lower().strip()
         if prosp_df['LocalAuthority'][i] in district_changes:
             prosp_df['LocalAuthority'][i] = district_changes[prosp_df['LocalAuthority'][i]]
     prop_dups = get_duplicates_list(prosp_df)
@@ -28,16 +29,22 @@ def preprocess_prosperity_df(prosp_df):
         prosp_df = prosp_df[prosp_df['LocalAuthority'] != i]
         prosp_df = prosp_df.append(pd.DataFrame(i_df_values).T, ignore_index=True)
     prosp_df = prosp_df[columns_order]
-    prosp_df.set_index('LocalAuthority', inplace=True)
+    prosp_df.rename({'LocalAuthority': 'district'}, axis=1, inplace=True)
+    prosp_df.set_index('district', inplace=True)
+    prosp_df = add_new_row(prosp_df, 'city of london', 'london')
+    prosp_df = add_new_row(prosp_df, 'isles of scilly', 'south west')
     return prosp_df
 
 
 def add_new_row(prosp_df, local_authority, region):
     region_df = prosp_df[prosp_df['Region'] == region]
     col_order = list(prosp_df.keys())
-    new_entry = region_df[list(col_order)[1:]].mean()
+    new_entry = region_df[list(col_order)[-43:]].mean()
     new_entry[col_order[0]] = region
-    prosp_df.loc[local_authority] = new_entry
+    new_entry['district'] = local_authority
+    new_entry = pd.DataFrame(new_entry).T
+    new_entry.set_index('district', inplace=True)
+    prosp_df = prosp_df.append(new_entry)
     prosp_df = prosp_df[col_order]
     return prosp_df
 
@@ -52,11 +59,4 @@ def create_district_region_map(df):
             if loc_auths[j] in district_changes:
                 loc_auths[j] = district_changes[loc_auths[j]]
         loc_auths = np.unique(loc_auths)
-        dist_reg_map[reg] = set(loc_auths)
-
-
-# print(prosperity_df.index)
-# print(get_duplicates_list(prosperity_df))
-# print(preprocess_prosperity_df(prosperity_df).iloc[-8:])
-# print(add_new_row(preprocess_prosperity_df(prosperity_df), 'londinium', 'North East'))
-# create_district_region_map(prosperity_df)
+        reg_dist_map[reg] = set(loc_auths)
