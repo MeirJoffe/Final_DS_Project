@@ -4,6 +4,8 @@ from Code.constants import *
 price_paid_headers = ['tid', 'price', 'date', 'postcode', 'property_type', 'old_new', 'duration', 'paon', 'saon',
                       'street', 'locality', 'city', 'district', 'county', 'ppd_type', 'status']
 
+columns_to_drop = ['tid', 'saon', 'street', 'locality', 'postcode', 'status', 'ppd_type']
+
 
 def combine_price_parts(file_1, file_2):
     df_1 = pd.read_csv(os.path.join(ORIGINAL_PRICE_DATA_PATH, file_1), index_col='Unnamed: 0')
@@ -31,6 +33,18 @@ def fill_missing_districts(df):
             df_city = df.loc[df['city'] == df['city'][i]]
             df['district'][i] = df_city['district'].mode().values[0]
     return df
+
+
+def drop_unnecessary_columns(year):
+    print(year)
+    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    df_yr.drop(columns_to_drop, axis=1, inplace=True)
+    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+
+
+def drop_all_unnecessary_columns():
+    for yr in range(1999, 2019):
+        drop_unnecessary_columns(yr)
 
 
 def preprocess_price_df(df):

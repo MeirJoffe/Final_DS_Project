@@ -17,6 +17,8 @@ def preprocess_prosperity_df(prosp_df):
     for i in range(len(prosp_df)):
         if prosp_df['LocalAuthority'][i] in district_changes:
             prosp_df['LocalAuthority'][i] = district_changes[prosp_df['LocalAuthority'][i]]
+        if prosp_df['Region'][i] == 'east':
+            prosp_df['Region'][i] = 'east of england'
     prop_dups = get_duplicates_list(prosp_df)
     prosp_df.drop('Areacode', axis=1, inplace=True)
     columns_order = list(prosp_df.keys())

@@ -151,3 +151,6 @@ reg_dist_map = {}
 
 regions_of_england = ['north east', 'north west', 'yorkshire and the humber', 'west midlands', 'east midlands',
                       'east of england', 'london', 'south east', 'south west']
+
+regions = regions_of_england
+regions.append('wales')
