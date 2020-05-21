@@ -4,7 +4,7 @@ from Code.constants import *
 price_paid_headers = ['tid', 'price', 'date', 'postcode', 'property_type', 'old_new', 'duration', 'paon', 'saon',
                       'street', 'locality', 'city', 'district', 'county', 'ppd_type', 'status']
 
-columns_to_drop = ['tid', 'saon', 'street', 'locality', 'postcode', 'status', 'ppd_type']
+columns_to_drop = ['tid', 'paon', 'saon', 'street', 'locality', 'city', 'postcode', 'status', 'ppd_type']
 
 
 def combine_price_parts(file_1, file_2):
@@ -36,7 +36,6 @@ def fill_missing_districts(df):
 
 
 def drop_unnecessary_columns(year):
-    print(year)
     df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
     df_yr.drop(columns_to_drop, axis=1, inplace=True)
     df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
@@ -64,6 +63,20 @@ def add_time_from_brexit(df):
         from_brexit.append((date(*list(map(int, df['date'].loc[i].split(' ')[0].split('-')))) - date(2016, 6, 24)).days)
     df['brexit'] = from_brexit
     return df
+
+
+def convert_to_binary(year, columns, values_to_one):
+    df = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    for col, val in zip(columns, values_to_one):
+        df.loc[df[col] != val, col] = 0
+        df.loc[df[col] == val, col] = 1
+    df.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+
+
+def convert_columns_to_binary(columns, values_to_one):
+    for yr in range(1999, 2019):
+        print(columns, yr)
+        convert_to_binary(yr, columns, values_to_one)
 
 
 # # Add headers to each of the pricing data files.

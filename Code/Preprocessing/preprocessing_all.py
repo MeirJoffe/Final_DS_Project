@@ -57,8 +57,8 @@ def preprocess_price_all_years():
 # drop_all_unnecessary_columns()
 
 
-# todo: remove 'other' rows from property type
-# todo: figure out how to handle date - as timestamp or as day-month-year
-# todo: convert old_new and duration to binary
-# todo: convert property_type to 1,2,3,4?
-# todo: one-hot county/region/city/district?
+# # Convert old_new and duration columns to binary
+# convert_columns_to_binary(['old_new', 'duration'], ['Y', 'F'])
+
+
+# todo: one-hot county/region/district?
