@@ -10,23 +10,30 @@ locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 DATA_PATH = 'C:\\Users\\Meir\\PycharmProjects\\Final_DS_Project\\Data'
 ALT_DATA_PATH = 'E:\\College\\Year_4\\Semester_2\\Final_Project\\Data_Files'
 
-# PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
-PRICE_DATA_PATH = ALT_DATA_PATH + '\\Regular'
+PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
+PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Regular'
 
-# ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Original_Parts'
-ORIGINAL_PRICE_DATA_PATH = ALT_DATA_PATH + '\\Original'
+ORIGINAL_PRICE_DATA_PATH = PRICE_DATA_PATH + '\\Original_Parts'
+ORIGINAL_PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Original'
 
-PREPROCESSED_PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid\\Preprocessed'
+PREPROCESSED_PRICE_DATA_PATH = PRICE_DATA_PATH + '\\Preprocessed'
+PREPROCESSED_PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Preprocessed'
+
 INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District'
-MEAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Mean'
-MEDIAN_INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District\\Median'
+MEAN_INCOME_DATA_PATH = INCOME_DATA_PATH + '\\Mean'
+MEDIAN_INCOME_DATA_PATH = INCOME_DATA_PATH + '\\Median'
 PROSPERITY_DATA_PATH = DATA_PATH + '\\Prosperity'
+
+MODEL_BIN_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
+MODEL_BIN_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
+MODEL_DIS_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
+MODEL_DIS_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
 
 
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',
                     'christchurch': 'bournemouth, christchurch and poole', 'castle morpeth': 'northumberland',
                     'east dorset': 'dorset', 'forest heath': 'west suffolk', 'weymouth and portland': 'dorset',
-                    'poole': 'bournemouth, christchurch and poole', 'purbeck': 'dorset', 'carrick': 'cornwall',
+                    'poole': 'bournemouth, christchurch and poole', 'purbeck': 'dorset', 'north dorset': 'dorset',
                     'st edmundsbury': 'west suffolk', 'suffolk coastal': 'east suffolk', 'bridgnorth': 'shropshire',
                     'taunton deane': 'somerset west and taunton', 'waveney': 'east suffolk', 'west dorset': 'dorset',
                     'west somerset': 'somerset west and taunton', 'south bedfordshire': 'central bedfordshire',
@@ -35,7 +42,7 @@ district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemou
                     'chester-le-street': 'county durham', 'congleton': 'cheshire east', 'derwentside': 'county durham',
                     'crewe and nantwich': 'cheshire east', 'durham': 'county durham', 'easington': 'county durham',
                     'ellesmere port and neston': 'cheshire west and chester', 'north shropshire': 'shropshire',
-                    'north dorset': 'dorset', 'kerrier': 'cornwall', 'mid bedfordshire': 'central bedfordshire',
+                    "st mary's": 'isles of scilly', 'kerrier': 'cornwall', 'mid bedfordshire': 'central bedfordshire',
                     'macclesfield': 'cheshire east', 'north cornwall': 'cornwall', 'north wiltshire': 'wiltshire',
                     'oswestry': 'shropshire', 'penwith': 'cornwall', 'restormel': 'cornwall', 'salisbury': 'wiltshire',
                     'shrewsbury and atcham': 'shropshire', 'teesdale': 'county durham', 'tynedale': 'northumberland',
@@ -53,21 +60,21 @@ district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemou
                     'south bucks': 'buckinghamshire', 'aylesbury vale': 'buckinghamshire', 'wycombe': 'buckinghamshire',
                     'east': 'east of england', 'kingston upon hull, city of': 'city of kingston upon hull',
                     'vale of glamorgan': 'the vale of glamorgan', 'rhondda cynon taf': 'rhondda cynon taff',
-                    'chiltern': 'buckinghamshire', 'kings lynn and west norfolk': "king's lynn and west norfolk",
-                    'herefordshire, county of': 'herefordshire'}
+                    "st martin's": 'isles of scilly', 'kings lynn and west norfolk': "king's lynn and west norfolk",
+                    'herefordshire, county of': 'herefordshire', 'carrick': 'cornwall', 'chiltern': 'buckinghamshire'}
 
 dist_reg_map = {'adur': 'south east', 'allerdale': 'north west', 'amber valley': 'east midlands', 'arun': 'south east',
                 'ashfield': 'east midlands', 'babergh': 'east of england', 'barking and dagenham': 'london',
                 'barnet': 'london', 'basildon': 'east of england', 'basingstoke and deane': 'south east',
                 'bassetlaw': 'east midlands', 'bath and north east somerset': 'south west', 'bexley': 'london',
-                'blaby': 'east midlands', 'blackburn with darwen': 'north west', 'blaenau gwent': 'wales',
-                'bolsover': 'east midlands', 'bolton': 'north west', 'bracknell forest': 'south east',
-                'braintree': 'east of england', 'breckland': 'east of england', 'brent': 'london',
-                'brentwood': 'east of england', 'brighton and hove': 'south east', 'broadland': 'east of england',
-                'bromley': 'london', 'bromsgrove': 'west midlands', 'broxbourne': 'east of england',
-                'broxtowe': 'east midlands', 'buckinghamshire': 'south east', 'bury': 'north west',
-                'caerphilly': 'wales', 'calderdale': 'yorkshire and the humber', 'camden': 'london',
-                'cannock chase': 'west midlands', 'castle point': 'east of england',
+                'blaby': 'east midlands', 'blackburn with darwen': 'north west', 'blackpool': 'north west',
+                'blaenau gwent': 'wales', 'bolsover': 'east midlands', 'bolton': 'north west',
+                'bracknell forest': 'south east', 'braintree': 'east of england', 'breckland': 'east of england',
+                'brent': 'london', 'brentwood': 'east of england', 'brighton and hove': 'south east',
+                'broadland': 'east of england', 'bromley': 'london', 'bromsgrove': 'west midlands',
+                'broxbourne': 'east of england', 'broxtowe': 'east midlands', 'buckinghamshire': 'south east',
+                'bury': 'north west', 'caerphilly': 'wales', 'calderdale': 'yorkshire and the humber',
+                'camden': 'london', 'cannock chase': 'west midlands', 'castle point': 'east of england',
                 'central bedfordshire': 'east of england', 'charnwood': 'east midlands', 'cherwell': 'south east',
                 'cheshire east': 'north west', 'chesterfield': 'east midlands', 'chichester': 'south east',
                 'chorley': 'north west', 'city of kingston upon hull': 'yorkshire and the humber',
@@ -98,26 +105,26 @@ dist_reg_map = {'adur': 'south east', 'allerdale': 'north west', 'amber valley':
                 'lambeth': 'london', 'lancaster': 'north west', 'lewes': 'south east', 'lewisham': 'london',
                 'lichfield': 'west midlands', 'maidstone': 'south east', 'maldon': 'east of england',
                 'malvern hills': 'west midlands', 'medway': 'south east', 'melton': 'east midlands',
-                'mendip': 'south west', 'merton': 'london', 'mid devon': 'south west', 'mid suffolk': 'east of england',
-                'mid sussex': 'south east', 'middlesbrough': 'yorkshire and the humber', 'mole valley': 'south east',
-                'monmouthshire': 'wales', 'neath port talbot': 'wales', 'new forest': 'south east',
-                'newark and sherwood': 'east midlands', 'newcastle-under-lyme': 'west midlands', 'newham': 'london',
-                'north devon': 'south west', 'north east derbyshire': 'east midlands',
-                'north east lincolnshire': 'yorkshire and the humber', 'north hertfordshire': 'east of england',
-                'north kesteven': 'east midlands', 'north lincolnshire': 'yorkshire and the humber',
-                'north norfolk': 'east of england', 'north somerset': 'south west', 'north tyneside': 'north east',
-                'north warwickshire': 'west midlands', 'north west leicestershire': 'east midlands',
-                'northumberland': 'north east', 'nuneaton and bedworth': 'west midlands',
-                'oadby and wigston': 'east midlands', 'oldham': 'north west', 'pendle': 'north west',
-                'reading': 'south east', 'redbridge': 'london', 'redcar and cleveland': 'yorkshire and the humber',
-                'redditch': 'west midlands', 'reigate and banstead': 'south east', 'rhondda cynon taff': 'wales',
-                'ribble valley': 'north west', 'richmond upon thames': 'london',
-                'richmondshire': 'yorkshire and the humber', 'rochdale': 'north west', 'rochford': 'east of england',
-                'rossendale': 'north west', 'rother': 'south east', 'rotherham': 'yorkshire and the humber',
-                'rugby': 'west midlands', 'runnymede': 'south east', 'rushcliffe': 'east midlands',
-                'rushmoor': 'south east', 'rutland': 'east midlands', 'ryedale': 'yorkshire and the humber',
-                "st martin's": 'south west', "st mary's": 'south west', 'salford': 'north west',
-                'sandwell': 'west midlands', 'sedgemoor': 'south west', 'sefton': 'north west',
+                'mendip': 'south west', 'merthyr tydfil': 'wales', 'merton': 'london', 'mid devon': 'south west',
+                'mid suffolk': 'east of england', 'mid sussex': 'south east',
+                'middlesbrough': 'yorkshire and the humber', 'mole valley': 'south east', 'monmouthshire': 'wales',
+                'neath port talbot': 'wales', 'new forest': 'south east', 'newark and sherwood': 'east midlands',
+                'newcastle-under-lyme': 'west midlands', 'newham': 'london', 'north devon': 'south west',
+                'north east derbyshire': 'east midlands', 'north east lincolnshire': 'yorkshire and the humber',
+                'north hertfordshire': 'east of england', 'north kesteven': 'east midlands',
+                'north lincolnshire': 'yorkshire and the humber', 'north norfolk': 'east of england',
+                'north somerset': 'south west', 'north tyneside': 'north east', 'north warwickshire': 'west midlands',
+                'north west leicestershire': 'east midlands', 'northumberland': 'north east',
+                'nuneaton and bedworth': 'west midlands', 'oadby and wigston': 'east midlands', 'oldham': 'north west',
+                'pendle': 'north west', 'reading': 'south east', 'redbridge': 'london',
+                'redcar and cleveland': 'yorkshire and the humber', 'redditch': 'west midlands',
+                'reigate and banstead': 'south east', 'rhondda cynon taff': 'wales', 'ribble valley': 'north west',
+                'richmond upon thames': 'london', 'richmondshire': 'yorkshire and the humber', 'rochdale': 'north west',
+                'rochford': 'east of england', 'rossendale': 'north west', 'rother': 'south east',
+                'rotherham': 'yorkshire and the humber', 'rugby': 'west midlands', 'runnymede': 'south east',
+                'rushcliffe': 'east midlands', 'rushmoor': 'south east', 'rutland': 'east midlands',
+                'ryedale': 'yorkshire and the humber', "st martin's": 'south west', "st mary's": 'south west',
+                'salford': 'north west', 'sandwell': 'west midlands', 'sedgemoor': 'south west', 'sefton': 'north west',
                 'selby': 'yorkshire and the humber', 'sevenoaks': 'south east', 'slough': 'south east',
                 'solihull': 'west midlands', 'somerset west and taunton': 'south west',
                 'south cambridgeshire': 'east of england', 'south derbyshire': 'east midlands',
@@ -148,6 +155,24 @@ dist_reg_map = {'adur': 'south east', 'allerdale': 'north west', 'amber valley':
                 'wychavon': 'west midlands', 'wyre': 'north west', 'wyre forest': 'west midlands'}
 
 reg_dist_map = {}
+
+county_changes = {'cleveland': 'north yorkshire', 'durham': 'county durham', 'south gloucestershire': 'gloucestershire',
+                  'north somerset': 'somerset', 'bath and north east somerset': 'somerset', 'avon': 'city of bristol',
+                  'cheshire east': 'cheshire', 'cheshire west and chester': 'cheshire', 'bedford': 'bedfordshire',
+                  'rhondda cynon taff': 'rhondda cynon taf', 'city of derby': 'derbyshire', 'wokingham': 'berkshire',
+                  'city of nottingham': 'nottinghamshire', 'southampton': 'hampshire', 'city of plymouth': 'devon',
+                  'city of kingston upon hull': 'east riding of yorkshire', 'slough': 'berkshire', 'poole': 'dorset',
+                  'hartlepool': 'county durham', 'portsmouth': 'hampshire', 'north lincolnshire': 'lincolnshire',
+                  'southend-on-sea': 'essex', 'the vale of glamorgan': 'vale of glamorgan', 'halton': 'cheshire',
+                  'warrington': 'cheshire', 'stockton-on-tees': 'county durham', 'brighton and hove': 'east sussex',
+                  'darlington': 'county durham', 'bracknell forest': 'berkshire', 'milton keynes': 'buckinghamshire',
+                  'wrekin': 'shropshire', 'windsor and maidenhead': 'berkshire', 'stoke-on-trent': 'staffordshire',
+                  'west berkshire': 'berkshire', 'medway': 'kent', 'luton': 'bedfordshire', 'blackpool': 'lancashire',
+                  'reading': 'berkshire', 'leicester': 'leicestershire', 'middlesbrough': 'north yorkshire',
+                  'torbay': 'devon', 'central bedfordshire': 'bedfordshire', 'north east lincolnshire': 'lincolnshire',
+                  'swindon': 'wiltshire', 'bournemouth, christchurch and poole': 'dorset', 'york': 'north yorkshire',
+                  'isles of scilly': 'cornwall', 'bournemouth': 'dorset', 'city of peterborough': 'cambridgeshire',
+                  'thurrock': 'essex', 'blackburn with darwen': 'lancashire', 'redcar and cleveland': 'north yorkshire'}
 
 regions_of_england = ['north east', 'north west', 'yorkshire and the humber', 'west midlands', 'east midlands',
                       'east of england', 'london', 'south east', 'south west']

@@ -27,25 +27,26 @@ def join_income_data(df, year):
 def join_prosperity_data(df, prosperity_df):
     for dist in set(df['district']):
         if dist not in list(prosperity_df.index):
-            prosperity_df = add_new_row(prosperity_df, dist, dist_reg_map[dist])
+            prosperity_df = add_new_prosp_row(prosperity_df, dist, dist_reg_map[dist])
     df = df.join(prosperity_df, 'district')
     return df
 
 
 def preprocess_price_once(year, prosperity_df):
-    df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH, 'pp-{}.csv'.format(year)), index_col='id')
+    # df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH, 'pp-{}.csv'.format(year)), index_col='id')
+    df_year = pd.read_csv(os.path.join(PRICE_DATA_PATH_A, 'pp-{}.csv'.format(year)), index_col='id')
     df_year = fill_missing_districts(df_year)
     df_year = preprocess_price_df(df_year)
     df_year = add_time_from_brexit(df_year)
     df_year = join_income_data(df_year, year)
     df_year = join_prosperity_data(df_year, prosperity_df)
-    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+    # df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
 
 
 def preprocess_price_all_years():
     prosperity_df = get_prosperity_df()
     for yr in range(1999, 2019):
-        print('starting:', yr)
         preprocess_price_once(yr, prosperity_df)
 
 
@@ -59,6 +60,3 @@ def preprocess_price_all_years():
 
 # # Convert old_new and duration columns to binary
 # convert_columns_to_binary(['old_new', 'duration'], ['Y', 'F'])
-
-
-# todo: one-hot county/region/district?

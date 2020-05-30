@@ -50,10 +50,12 @@ def preprocess_price_df(df):
     df['district'] = df['district'].str.lower().str.strip()
     df['county'] = df['county'].str.lower().str.strip()
     for i in range(len(df)):
-        if i % 100000 == 0:
-            print(i)
         if df['district'][i] in district_changes:
             df['district'][i] = district_changes[df['district'][i]]
+        if df['county'][i] in county_changes:
+            df['county'][i] = county_changes[df['county'][i]]
+        if df['district'][i] == 'city of london':
+            df['county'][i] = 'city of london'
     return df
 
 

@@ -33,12 +33,12 @@ def preprocess_prosperity_df(prosp_df):
     prosp_df = prosp_df[columns_order]
     prosp_df.rename({'LocalAuthority': 'district'}, axis=1, inplace=True)
     prosp_df.set_index('district', inplace=True)
-    prosp_df = add_new_row(prosp_df, 'city of london', 'london')
-    prosp_df = add_new_row(prosp_df, 'isles of scilly', 'south west')
+    prosp_df = add_new_prosp_row(prosp_df, 'city of london', 'london')
+    prosp_df = add_new_prosp_row(prosp_df, 'isles of scilly', 'south west')
     return prosp_df
 
 
-def add_new_row(prosp_df, local_authority, region):
+def add_new_prosp_row(prosp_df, local_authority, region):
     region_df = prosp_df[prosp_df['Region'] == region]
     col_order = list(prosp_df.keys())
     new_entry = region_df[list(col_order)[-43:]].mean()
