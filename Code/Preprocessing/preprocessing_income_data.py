@@ -222,13 +222,6 @@ def get_year_df(year, mean_med_str):
     return df_year
 
 
-def add_fix_change_pct(df, df_prev, mean_med_str):
-    for i in list(df.index):
-        if i in list(df_prev.index):
-            df['change'][i] = -np.round(100 - (df.loc[i][mean_med_str] / (df_prev.loc[i][mean_med_str] / 100)), 1)
-    return df
-
-
 def get_mean_and_median_years():
     mean_years = []
     median_years = []

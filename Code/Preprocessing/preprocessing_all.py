@@ -5,6 +5,19 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+def convert_columns_to_lowercase(year):
+#     df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    df_yr.columns = map(str.lower, df_yr.columns)
+#     df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
+    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+
+
+def convert_all_columns_to_lowercase():
+    for year in range(1999, 2019):
+        convert_columns_to_lowercase(year)
+
+
 def get_prosperity_df():
     prosperity_df = pd.read_csv(os.path.join(PROSPERITY_DATA_PATH, '2016UKProsperityScores.csv'), header=[1])
     create_district_region_map(prosperity_df)
@@ -56,6 +69,10 @@ def preprocess_price_all_years():
 
 # # Drop all unused and irrelevant columns
 # drop_all_unnecessary_columns()
+
+
+# # Convert all column names to lowercase
+# convert_all_columns_to_lowercase()
 
 
 # # Convert old_new and duration columns to binary
