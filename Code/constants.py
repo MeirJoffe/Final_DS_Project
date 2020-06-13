@@ -3,6 +3,7 @@ import numpy as np
 import os
 import re
 from datetime import date
+import pickle
 import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
@@ -28,6 +29,11 @@ MODEL_BIN_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
 MODEL_BIN_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
 MODEL_DIS_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
 MODEL_DIS_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
+
+MODEL_BIN_TRAIN_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Train'
+MODEL_BIN_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Test'
+MODEL_DIS_TRAIN_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Train'
+MODEL_DIS_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Test'
 
 
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',
