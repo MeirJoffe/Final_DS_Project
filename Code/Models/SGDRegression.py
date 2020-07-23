@@ -15,7 +15,8 @@ class SGDRegression:
         if self.theta is None:
             self.theta = np.zeros((X.shape[1], 1))
         for i in range(num_iters):
-            batches = create_mini_batches(X, y, batch_size)
+            print(i)
+            batches = create_mini_batches(X, y, batch_size, shuffle_data=True)
             for batch in batches:
                 batch_X, batch_y = batch
                 preds = self.predict(batch_X)
@@ -33,13 +34,21 @@ class SGDRegression:
         return np.dot(X, self.theta)
 
     def score(self, X, y, batch_size=50000):
-        total_errs = []
-        batches = create_mini_batches(X, y, batch_size)
-        for batch in batches:
-            batch_X, batch_y = batch
-            batch_preds = self.predict(batch_X)
-            total_errs.append(np.sum(np.abs(batch_y - batch_preds)))
-        return sum(total_errs) / y.shape[0]
+        total_err = 0
+        for i in range(X.shape[0]):
+            if i % 50000 == 0:
+                print(i)
+            pred = np.dot(X[i], self.theta)
+            total_err += np.abs(pred - y[i])
+        return total_err / y.shape[0]
+
+        # total_errs = []
+        # batches = create_mini_batches(X, y, batch_size)
+        # for batch in batches:
+        #     batch_X, batch_y = batch
+        #     batch_preds = self.predict(batch_X)
+        #     total_errs.append(np.sum(np.abs(batch_y.flatten() - batch_preds)))
+        # return sum(total_errs) / y.shape[0]
 
     def _cost_func(self, X, y):
         pred = self.predict(X)
@@ -48,3 +57,9 @@ class SGDRegression:
     @staticmethod
     def _grad_function(X, y, preds):
         return np.dot(X.T, (preds - y))
+
+    def most_important_features(self, df_keys, num_importances=5):
+        features_list = list(self.theta)
+        indices = sorted(range(len(features_list)), key=lambda i: features_list[i], reverse=True)[:num_importances]
+        most_important_keys = [df_keys[i] for i in indices]
+        return most_important_keys

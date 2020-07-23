@@ -8,12 +8,13 @@ class RandomForestRegression:
     """
 
     def __init__(self):
-        self.model = RandomForestRegressor(warm_start=True)
+        self.model = RandomForestRegressor(warm_start=True, criterion='mae')
 
     def train(self, X, y, batch_size=100000):
         batches = create_mini_batches(X, y, batch_size)
         for batch in batches:
             batch_X, batch_y = batch
+            print(batch_X.shape[0], X.shape[0])
             self.model.fit(batch_X, batch_y)
 
     def predict(self, X, max_batch_size=10000):
@@ -32,5 +33,11 @@ class RandomForestRegression:
         for batch in batches:
             batch_X, batch_y = batch
             batch_preds = self.predict(batch_X)
-            total_errs.append(np.sum(np.abs(batch_y - batch_preds)))
+            total_errs.append(np.sum(np.abs(batch_y.flatten() - batch_preds)))
         return sum(total_errs) / y.shape[0]
+
+    def most_important_features(self, df_keys, num_importances=5):
+        importances = self.model.feature_importances_
+        indices = sorted(range(len(importances)), key=lambda i: importances[i], reverse=True)[:num_importances]
+        most_important_keys = [df_keys[i] for i in indices]
+        return most_important_keys

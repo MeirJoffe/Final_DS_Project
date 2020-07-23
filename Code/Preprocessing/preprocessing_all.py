@@ -7,10 +7,15 @@ warnings.filterwarnings('ignore')
 
 def convert_columns_to_lowercase(year):
 #     df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+#     df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+
+    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)), index_col='id')
+
     df_yr.columns = map(str.lower, df_yr.columns)
 #     df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
-    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+#     df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+
+    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)))
 
 
 def convert_all_columns_to_lowercase():
@@ -54,7 +59,9 @@ def preprocess_price_once(year, prosperity_df):
     df_year = join_income_data(df_year, year)
     df_year = join_prosperity_data(df_year, prosperity_df)
     # df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
-    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+    # df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+
+    df_year.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)))
 
 
 def preprocess_price_all_years():
@@ -63,17 +70,32 @@ def preprocess_price_all_years():
         preprocess_price_once(yr, prosperity_df)
 
 
-# # Perform preprocessing for all years
-# preprocess_price_all_years()
+def full_preprocessing_year(year):
+    prosperity_df = get_prosperity_df()
+    preprocess_price_once(year, prosperity_df)
+    drop_unnecessary_columns(yr)
+    convert_columns_to_lowercase(yr)
+    convert_to_binary(yr, ['old_new', 'duration'], ['Y', 'F'])
 
 
-# # Drop all unused and irrelevant columns
-# drop_all_unnecessary_columns()
+def full_preprocessing_all_years():
+    for year in range(1999, 2019):
+        full_preprocessing_year(year)
 
 
-# # Convert all column names to lowercase
-# convert_all_columns_to_lowercase()
-
-
-# # Convert old_new and duration columns to binary
-# convert_columns_to_binary(['old_new', 'duration'], ['Y', 'F'])
+for yr in range(2014, 2019):
+    print('starting preprocessing', yr)
+    preprocess_price_once(yr, get_prosperity_df())
+    print('dropping unnecessary columns', yr)
+    drop_unnecessary_columns(yr)
+    print('converting to lowercase', yr)
+    convert_columns_to_lowercase(yr)
+    print('converting old_new and duration to binary', yr)
+    convert_to_binary(yr, ['old_new', 'duration'], ['Y', 'F'])
+    from Code.Models.model_preprocessing import model_preprocess_yr
+    print('starting model preprocessing', yr)
+    df = model_preprocess_yr(yr, binary=True)
+    # np.random.shuffle(df)
+    for i in range(10):
+        df_i = df.iloc[i * (len(df) // 10): (i + 1) * (len(df) // 10)]
+        df_i.to_csv(os.path.join(MODEL_BIN_DATA_PATH_A, 'm_b-preprocessed-city-{}-{}.csv'.format(yr, i)))

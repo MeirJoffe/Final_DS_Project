@@ -4,7 +4,8 @@ from Code.constants import *
 price_paid_headers = ['tid', 'price', 'date', 'postcode', 'property_type', 'old_new', 'duration', 'paon', 'saon',
                       'street', 'locality', 'city', 'district', 'county', 'ppd_type', 'status']
 
-columns_to_drop = ['tid', 'paon', 'saon', 'street', 'locality', 'city', 'postcode', 'status', 'ppd_type']
+# columns_to_drop = ['tid', 'paon', 'saon', 'street', 'locality', 'city', 'postcode', 'status', 'ppd_type']
+columns_to_drop = ['tid', 'paon', 'saon', 'street', 'locality', 'postcode', 'status', 'ppd_type']
 
 
 def combine_price_parts(file_1, file_2):
@@ -37,10 +38,15 @@ def fill_missing_districts(df):
 
 def drop_unnecessary_columns(year):
     # df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    # df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+
+    df_yr = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)), index_col='id')
+
     df_yr.drop(columns_to_drop, axis=1, inplace=True)
     # df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
-    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+    # df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+
+    df_yr.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)))
 
 
 def drop_all_unnecessary_columns():
@@ -71,12 +77,17 @@ def add_time_from_brexit(df):
 
 def convert_to_binary(year, columns, values_to_one):
     # df = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    df = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    # df = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+
+    df = pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)), index_col='id')
+
     for col, val in zip(columns, values_to_one):
         df.loc[df[col] != val, col] = 0
         df.loc[df[col] == val, col] = 1
     # df.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)))
-    df.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+    # df.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)))
+
+    df.to_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)))
 
 
 def convert_columns_to_binary(columns, values_to_one):

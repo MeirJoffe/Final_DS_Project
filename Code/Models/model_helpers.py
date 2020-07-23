@@ -33,6 +33,10 @@ def model_get_preprocessed_train_test(year, binary=False, add_intercept=False):
     else:
         df_yr_tr = get_model_dis_train_df(year)
         df_yr_ts = get_model_dis_test_df(year)
+
+    # df_yr_tr = df_yr_tr[df_yr_tr['region_london'] == 0]
+    # df_yr_ts = df_yr_ts[df_yr_ts['region_london'] == 0]
+
     y_tr = df_yr_tr['price'].values
     y_tr = np.reshape(y_tr, (y_tr.shape[0], 1))
     df_yr_tr.drop('price', axis=1, inplace=True)
@@ -45,10 +49,11 @@ def model_get_preprocessed_train_test(year, binary=False, add_intercept=False):
     return df_yr_tr, y_tr, df_yr_ts, y_ts
 
 
-def create_mini_batches(X, y, batch_size):
+def create_mini_batches(X, y, batch_size, shuffle_data=False):
     batches = []
     batch_full_data = np.hstack((X, y))
-    np.random.shuffle(batch_full_data)
+    if shuffle_data:
+        np.random.shuffle(batch_full_data)
     num_batches = X.shape[0] // batch_size
     for i in range(num_batches + 1):
         mini_batch = batch_full_data[i * batch_size:(i + 1) * batch_size, :]
@@ -60,10 +65,17 @@ def create_mini_batches(X, y, batch_size):
 
 def create_mini_batches_X_only(X, batch_size):
     batches = []
-    np.random.shuffle(X)
+    # np.random.shuffle(X)
     num_batches = X.shape[0] // batch_size
     for i in range(num_batches + 1):
         mini_batch = X[i * batch_size:(i + 1) * batch_size, :]
         batch_X = mini_batch[:, :-1]
         batches.append(batch_X)
     return batches
+
+
+def bootstrap(model, df, n_iters=10000, batch_size=1000):
+    thetas = {}
+    for i in range(n_iters):
+        model_i = model()
+        # model.train(X)

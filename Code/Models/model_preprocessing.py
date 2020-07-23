@@ -4,7 +4,9 @@ from Code.Models.model_helpers import *
 
 def get_preprocessed_df(year):
     # return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    # return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+
+    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-city-{}.csv'.format(year)), index_col='id')
 
 
 def convert_categorical_to_binaries(df, column, values_to_drop=()):
@@ -40,6 +42,9 @@ def model_preprocess_yr(year, binary=True):
     df_yr = convert_categorical_to_binaries(df_yr, 'region')
     df_yr = convert_categorical_to_binaries(df_yr, 'county')
     df_yr = convert_categorical_to_binaries(df_yr, 'district')
+
+    df_yr = convert_categorical_to_binaries(df_yr, 'city')
+
     return df_yr
 
 
