@@ -35,6 +35,9 @@ MODEL_BIN_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Test'
 MODEL_DIS_TRAIN_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Train'
 MODEL_DIS_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Test'
 
+MODEL_BIN_COMB_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Combined'
+MODEL_DIS_COMB_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Combined'
+
 
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',
                     'christchurch': 'bournemouth, christchurch and poole', 'castle morpeth': 'northumberland',

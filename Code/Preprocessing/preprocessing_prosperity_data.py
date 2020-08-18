@@ -12,6 +12,11 @@ def get_duplicates_list(df):
 
 
 def preprocess_prosperity_df(prosp_df):
+    """
+    A function that performs most of the preprocessing for the prosperity dataframe.
+    :param prosp_df: The prosperity dataframe.
+    :return: The preprocessed dataframe.
+    """
     prosp_df['LocalAuthority'] = prosp_df['LocalAuthority'].str.lower().str.strip().str.replace('.', '')
     prosp_df['Region'] = prosp_df['Region'].str.lower().str.strip()
     for i in range(len(prosp_df)):
@@ -19,6 +24,7 @@ def preprocess_prosperity_df(prosp_df):
             prosp_df['LocalAuthority'][i] = district_changes[prosp_df['LocalAuthority'][i]]
         if prosp_df['Region'][i] == 'east':
             prosp_df['Region'][i] = 'east of england'
+
     prop_dups = get_duplicates_list(prosp_df)
     prosp_df.drop('Areacode', axis=1, inplace=True)
     columns_order = list(prosp_df.keys())
@@ -30,15 +36,24 @@ def preprocess_prosperity_df(prosp_df):
         i_df_values[list(i_df.keys())[1]] = i_df[list(i_df.keys())[1]].values[0]
         prosp_df = prosp_df[prosp_df['LocalAuthority'] != i]
         prosp_df = prosp_df.append(pd.DataFrame(i_df_values).T, ignore_index=True)
+
     prosp_df = prosp_df[columns_order]
     prosp_df.rename({'LocalAuthority': 'district'}, axis=1, inplace=True)
     prosp_df.set_index('district', inplace=True)
+
     prosp_df = add_new_prosp_row(prosp_df, 'city of london', 'london')
     prosp_df = add_new_prosp_row(prosp_df, 'isles of scilly', 'south west')
     return prosp_df
 
 
 def add_new_prosp_row(prosp_df, local_authority, region):
+    """
+    A function that adds a new row to the prosperity dataframe.
+    :param prosp_df: The prosperity dataframe to add to.
+    :param local_authority: The local authority of the new row.
+    :param region: The region of the new row.
+    :return: The prosperity dataframe after adding the new row.
+    """
     region_df = prosp_df[prosp_df['Region'] == region]
     col_order = list(prosp_df.keys())
     new_entry = region_df[list(col_order)[-43:]].mean()
@@ -52,6 +67,11 @@ def add_new_prosp_row(prosp_df, local_authority, region):
 
 
 def create_district_region_map(df):
+    """
+    A function that populates the district region map (called reg_dist_map in constants.py).
+    :param df: The dataframe to use to populate it.
+    :return: None.
+    """
     regions = np.unique(list(df['Region']))
     for reg in regions:
         reg_df = df[df['Region'] == reg]

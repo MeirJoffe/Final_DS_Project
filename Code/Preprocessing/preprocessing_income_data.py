@@ -2,6 +2,11 @@ from Code.constants import *
 
 
 def convert_2018_to_csv(filename):
+    """
+    A function that converts the mean and median excel file to a csv.
+    :param filename: The file name.
+    :return: None.
+    """
     df = pd.read_excel(filename, 'All', header=[4])
     df_mean = df[['Description', 'Code', 'Mean', 'change']]
     df_median = df[['Description', 'Code', 'Mean', 'change']]
@@ -10,6 +15,11 @@ def convert_2018_to_csv(filename):
 
 
 def split_1999_2017(filename):
+    """
+    A function that receives a file name, reads it and splits the data by year, saving each year in a separate file.
+    :param filename: The name of the file.
+    :return: None.
+    """
     df_mean = pd.read_excel(filename, 'FTE Mean', header=[4])
     df_median = pd.read_excel(filename, 'FTE Median', header=[4])
     df_mean_1999 = df_mean[['Description', 'Code', 'Mean', 'change']]
@@ -170,6 +180,14 @@ def get_duplicates_list(df):
 
 
 def duplicate_row(df, new_name, existing_name, mean_med_str):
+    """
+    A function that receives a dataframe and adds an additional, duplicate row under the new name provided.
+    :param df: The dataframe.
+    :param new_name: The name of the newly added row.
+    :param existing_name: The name of the existing row.
+    :param mean_med_str: A string whose value is either 'mean' or 'median'.
+    :return: The dataframe.
+    """
     exist_df = df[df['Description'] == existing_name]
     df = df.append(pd.DataFrame([[new_name, 0, exist_df[mean_med_str].values[0], 0]], columns=df.keys()),
                    ignore_index=True)
@@ -177,6 +195,12 @@ def duplicate_row(df, new_name, existing_name, mean_med_str):
 
 
 def split_wolverhampton_walsall(df, mean_med_str):
+    """
+    A function that receives a dataframe  and splits the Wolverhampton and Walsall district into separate entries.
+    :param df: The dataframe.
+    :param mean_med_str: A string whose value is either 'mean' or 'median'.
+    :return: The dataframe after the splitting.
+    """
     if 'wolverhampton and walsall' in set(df['Description'].values):
         df = duplicate_row(df, 'walsall', 'wolverhampton and walsall', mean_med_str)
         df = duplicate_row(df, 'wolverhampton', 'wolverhampton and walsall', mean_med_str)
@@ -185,6 +209,12 @@ def split_wolverhampton_walsall(df, mean_med_str):
 
 
 def get_year_df(year, mean_med_str):
+    """
+    A function that returns, after some preprocessing, the mean/median income data for a given year.
+    :param year: The year to return the data for.
+    :param mean_med_str: A string that is either 'mean' or 'median'.
+    :return: The dataframe.
+    """
     df_year = pd.read_csv(os.path.join(INCOME_DATA_PATH + '\\{}'.format(mean_med_str),
                                          '{}_income_{}.csv'.format(mean_med_str, year)))
     df_year[mean_med_str].fillna('x', inplace=True)
@@ -223,6 +253,11 @@ def get_year_df(year, mean_med_str):
 
 
 def get_mean_and_median_years():
+    """
+    A function that returns two lists, one containing the mean income by district for each year, and the second the
+    median incomes.
+    :return: The two lists.
+    """
     mean_years = []
     median_years = []
     for i in range(1999, 2019):
