@@ -8,35 +8,33 @@ import locale
 locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 
-DATA_PATH = 'C:\\Users\\Meir\\PycharmProjects\\Final_DS_Project\\Data'
-ALT_DATA_PATH = 'E:\\College\\Year_4\\Semester_2\\Final_Project\\Data_Files'
+DATA_PATH = 'E:\\College\\Year_4\\Semester_2\\Final_Project\\Data_Files'
 
-PRICE_DATA_PATH = DATA_PATH + '\\Price_Paid'
-PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Regular'
+PRICE_DATA_PATH = DATA_PATH + '\\Regular'
 
-ORIGINAL_PRICE_DATA_PATH = PRICE_DATA_PATH + '\\Original_Parts'
-ORIGINAL_PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Original'
+ORIGINAL_PRICE_DATA_PATH = DATA_PATH + '\\Original'
 
-PREPROCESSED_PRICE_DATA_PATH = PRICE_DATA_PATH + '\\Preprocessed'
-PREPROCESSED_PRICE_DATA_PATH_A = ALT_DATA_PATH + '\\Preprocessed'
+PREPROCESSED_PRICE_DATA_PATH = DATA_PATH + '\\Preprocessed'
 
 INCOME_DATA_PATH = DATA_PATH + '\\Income_By_District'
 MEAN_INCOME_DATA_PATH = INCOME_DATA_PATH + '\\Mean'
 MEDIAN_INCOME_DATA_PATH = INCOME_DATA_PATH + '\\Median'
 PROSPERITY_DATA_PATH = DATA_PATH + '\\Prosperity'
 
-MODEL_BIN_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
-MODEL_BIN_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
-MODEL_DIS_DATA_PATH = PRICE_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
-MODEL_DIS_DATA_PATH_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
+MODEL_BIN_DATA_PATH = DATA_PATH + '\\Model_Prop_Bin_Preprocessed'
+MODEL_DIS_DATA_PATH = DATA_PATH + '\\Model_Prop_Dis_Preprocessed'
 
-MODEL_BIN_TRAIN_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Train'
-MODEL_BIN_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Test'
-MODEL_DIS_TRAIN_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Train'
-MODEL_DIS_TEST_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Test'
+MODEL_BIN_TRAIN = DATA_PATH + '\\Model_Prop_Bin_Train'
+MODEL_BIN_TEST = DATA_PATH + '\\Model_Prop_Bin_Test'
+MODEL_DIS_TRAIN = DATA_PATH + '\\Model_Prop_Dis_Train'
+MODEL_DIS_TEST = DATA_PATH + '\\Model_Prop_Dis_Test'
 
-MODEL_BIN_COMB_A = ALT_DATA_PATH + '\\Model_Prop_Bin_Combined'
-MODEL_DIS_COMB_A = ALT_DATA_PATH + '\\Model_Prop_Dis_Combined'
+MODEL_BIN_COMB = DATA_PATH + '\\Model_Prop_Bin_Combined'
+MODEL_DIS_COMB = DATA_PATH + '\\Model_Prop_Dis_Combined'
+
+BOOTSTRAP_PATH = DATA_PATH + '\\Bootstrap'
+
+RESULTS_PATH = DATA_PATH + '\\Results'
 
 
 district_changes = {'shepway': 'folkestone and hythe', 'bournemouth': 'bournemouth, christchurch and poole',

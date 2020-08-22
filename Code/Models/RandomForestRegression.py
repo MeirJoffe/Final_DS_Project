@@ -24,7 +24,6 @@ class RandomForestRegression:
         batches = create_mini_batches(X, y, batch_size)
         for batch in batches:
             batch_X, batch_y = batch
-            print(batch_X.shape[0], X.shape[0])
             self.model.fit(batch_X, batch_y)
 
     def predict(self, X, max_batch_size=10000):

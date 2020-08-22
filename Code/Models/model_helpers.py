@@ -10,11 +10,9 @@ def get_df_year(yr, binary=False):
     :return: The dataframe.
     """
     if binary:
-        # return pd.read_csv(os.path.join(MODEL_BIN_DATA_PATH, 'm_b-preprocessed-{}.csv'.format(yr)), index_col='id')
-        return pd.read_csv(os.path.join(MODEL_BIN_DATA_PATH_A, 'm_b-preprocessed-{}.csv'.format(yr)), index_col='id')
+        return pd.read_csv(os.path.join(MODEL_BIN_DATA_PATH, 'm_b-preprocessed-{}.csv'.format(yr)), index_col='id')
     else:
-        # return pd.read_csv(os.path.join(MODEL_DIS_DATA_PATH, 'm_d-preprocessed-{}.csv'.format(yr)), index_col='id')
-        return pd.read_csv(os.path.join(MODEL_DIS_DATA_PATH_A, 'm_d-preprocessed-{}.csv'.format(yr)), index_col='id')
+        return pd.read_csv(os.path.join(MODEL_DIS_DATA_PATH, 'm_d-preprocessed-{}.csv'.format(yr)), index_col='id')
 
 
 def get_model_dis_train_df(year):
@@ -25,7 +23,7 @@ def get_model_dis_train_df(year):
     columns.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_DIS_TRAIN_A, 'train-d-{}.csv'.format(year)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_DIS_TRAIN, 'train-d-{}.csv'.format(year)), index_col='id')
 
 
 def get_model_dis_test_df(year):
@@ -36,7 +34,7 @@ def get_model_dis_test_df(year):
     columns.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_DIS_TEST_A, 'test-d-{}.csv'.format(year)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_DIS_TEST, 'test-d-{}.csv'.format(year)), index_col='id')
 
 
 def get_model_bin_train_df(year):
@@ -47,7 +45,7 @@ def get_model_bin_train_df(year):
     columns.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_BIN_TRAIN_A, 'train-b-{}.csv'.format(year)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_BIN_TRAIN, 'train-b-{}.csv'.format(year)), index_col='id')
 
 
 def get_model_bin_test_df(year):
@@ -58,7 +56,7 @@ def get_model_bin_test_df(year):
     columns.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_BIN_TEST_A, 'test-b-{}.csv'.format(year)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_BIN_TEST, 'test-b-{}.csv'.format(year)), index_col='id')
 
 
 def get_model_bin_all_df(part):
@@ -68,7 +66,7 @@ def get_model_bin_all_df(part):
     :param part: The number part to return the data for.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_BIN_COMB_A, 'm_b-preprocessed-part-{}.csv'.format(part)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_BIN_COMB, 'm_b-preprocessed-part-{}.csv'.format(part)), index_col='id')
 
 
 def get_model_dis_all_df(part):
@@ -78,7 +76,7 @@ def get_model_dis_all_df(part):
     :param part: The number part to return the data for.
     :return: The dataframe.
     """
-    return pd.read_csv(os.path.join(MODEL_DIS_COMB_A, 'm_d-preprocessed-part-{}.csv'.format(part)), index_col='id')
+    return pd.read_csv(os.path.join(MODEL_DIS_COMB, 'm_d-preprocessed-part-{}.csv'.format(part)), index_col='id')
 
 
 def model_get_preprocessed_train_test_by_year(year, binary=False, add_intercept=False):
@@ -195,8 +193,6 @@ def bootstrap(model, df, year, n_iters=20, binary=False, acc=0.9):
     thetas = []
     to_save = []
     for i in range(n_iters):
-        if i % 5 == 0:
-            print(year, i)
         x_i = df.sample(df.shape[0], replace=True)
         y_i = x_i['price'].values
         y_i = np.reshape(y_i, (y_i.shape[0], 1))
@@ -218,8 +214,7 @@ def bootstrap(model, df, year, n_iters=20, binary=False, acc=0.9):
     file.close()
 
 
-# def bootstrap_all_years(model, train_indices, n_iters=20, binary=False, acc=0.9):
-def bootstrap_all_years(model, train_indices, n_iters=20, binary=False, acc=0.9, start_index=0):
+def bootstrap_all_years(model, train_indices, n_iters=20, binary=False, acc=0.9):
     """
     A function that performs bootstrapping (for regression) in order to provide a confidence interval for the values of
     the learned weight vector (theta).
@@ -234,10 +229,8 @@ def bootstrap_all_years(model, train_indices, n_iters=20, binary=False, acc=0.9,
     """
     thetas = []
     to_save = []
-    # for i in range(n_iters):
-    for i in range(start_index, n_iters):
+    for i in range(n_iters):
         model_i = model()
-        print(i)
         rand_bootstrap_parts = np.random.choice(train_indices, len(train_indices), replace=True)
         for j in rand_bootstrap_parts:
             if binary:

@@ -64,8 +64,6 @@ class SGDRegression:
         """
         total_err = 0
         for i in range(X.shape[0]):
-            if i % 50000 == 0:
-                print(i)
             pred = np.dot(X[i], self.theta)
             total_err += np.abs(pred - y[i])
         return total_err / y.shape[0]

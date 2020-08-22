@@ -1,15 +1,23 @@
 from Code.constants import *
 from matplotlib import pyplot as plt
-from Code.Models.model_preprocessing import get_preprocessed_df
+import seaborn as sns
 plt.style.use('ggplot')
 
 
 def get_real_estate_df(year):
-    # return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    """
+    A function that returns the preprocessed data for a given year.
+    :param year: The year to provide the data for.
+    :return: A dataframe containing the data for the given year.
+    """
+    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
 
 
 def plot_average_price_over_time():
+    """
+    A function that plots the average price (on a yearly basis) over time.
+    :return: None.
+    """
     avg_prices = []
     for yr in range(1999, 2019):
         df_yr = get_real_estate_df(yr)
@@ -24,6 +32,10 @@ def plot_average_price_over_time():
 
 
 def plot_average_price_over_time_month():
+    """
+    A function that plots the average price (on a monthly basis) over time.
+    :return: None.
+    """
     avg_prices = []
     for yr in range(1999, 2019):
         df_yr = get_real_estate_df(yr)
@@ -64,6 +76,10 @@ def plot_average_price_by_region():
 
 
 def plot_avg_num_sales_over_time():
+    """
+    A function that plots the average number of sales (on a yearly basis) over time.
+    :return: None.
+    """
     num_sales = []
     for yr in range(1999, 2019):
         df_yr = get_real_estate_df(yr)
@@ -78,6 +94,10 @@ def plot_avg_num_sales_over_time():
 
 
 def plot_avg_num_sales_over_time_month():
+    """
+    A function that plots the average number of sales (on a monthly basis) over time.
+    :return: None.
+    """
     avg_sales_by_month = []
     for yr in range(1999, 2019):
         df_yr = get_real_estate_df(yr)
@@ -94,6 +114,10 @@ def plot_avg_num_sales_over_time_month():
 
 
 def plot_num_sales_by_region_over_time():
+    """
+    A function that plots the average number of sales (on a yearly basis) over time by region.
+    :return: None.
+    """
     regional_sales = {i: [] for i in regions}
     for yr in range(1999, 2019):
         df_yr = get_real_estate_df(yr)
@@ -115,6 +139,10 @@ def plot_num_sales_by_region_over_time():
 
 
 def plot_top_counties_avg_price_over_time():
+    """
+    A function that plots the average price (on a yearly basis) over time for the 10 counties with the highest average.
+    :return: None.
+    """
     avg_prices = []
     county_avg = {}
     for yr in range(1999, 2019):
@@ -177,6 +205,10 @@ def plot_top_counties_avg_price_over_time():
 
 
 def plot_bottom_counties_avg_price_over_time():
+    """
+    A function that plots the average price (on a yearly basis) over time for the 10 counties with the lowest average.
+    :return: None.
+    """
     avg_prices = []
     county_avg = {}
     for yr in range(1999, 2019):
@@ -206,6 +238,282 @@ def plot_bottom_counties_avg_price_over_time():
     plt.show()
 
 
+def plot_yearly_mean_std():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    plt.plot(np.arange(1999, 2019), results_df['Mean'][:20], 'b', label='mean')
+    plt.plot(np.arange(1999, 2019), results_df['STD'][:20], 'r', label='std')
+    plt.plot(np.arange(1999, 2019), [results_df['Mean']['All'] for i in range(20)], 'k', label='mean - all years')
+    plt.plot(np.arange(1999, 2019), [results_df['STD']['All'] for i in range(20)], 'g', label='std - all years')
+    plt.title('Mean & STD Prices by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Price')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Dis'], 'b', label='gradient descent discrete')
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Bin'], 'r', label='gradient descent binary')
+    plt.plot(np.arange(1999, 2019), results_df['RF - Dis'], 'g', label='random forest discrete')
+    plt.plot(np.arange(1999, 2019), results_df['RF - Bin'], 'orange', label='random forest binary')
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Dis'], 'm', label='multi-layer perceptron discrete')
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Bin'], 'y', label='multi-layer perceptron binary')
+    plt.title('Comparison of Model Results by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison_discrete():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Dis'], 'b', label='gradient descent discrete')
+    plt.plot(np.arange(1999, 2019), results_df['RF - Dis'], 'g', label='random forest discrete')
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Dis'], 'm', label='multi-layer perceptron discrete')
+    plt.title('Comparison of Model Results by Year - Discrete')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison_binary():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Bin'], 'r', label='gradient descent binary')
+    plt.plot(np.arange(1999, 2019), results_df['RF - Bin'], 'orange', label='random forest binary')
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Bin'], 'y', label='multi-layer perceptron binary')
+    plt.title('Comparison of Model Results by Year - Binary')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison_sgd():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Dis'], 'b', label='gradient descent discrete')
+    plt.plot(np.arange(1999, 2019), results_df['SGD - Bin'], 'r', label='gradient descent binary')
+    plt.title('Comparison of SGD Model Results by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison_rf():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['RF - Dis'], 'g', label='random forest discrete')
+    plt.plot(np.arange(1999, 2019), results_df['RF - Bin'], 'orange', label='random forest binary')
+    plt.title('Comparison of Random Forest Model Results by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_yearly_results_comparison_mlp():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Dis'], 'm', label='multi-layer perceptron discrete')
+    plt.plot(np.arange(1999, 2019), results_df['MLP - Bin'], 'y', label='multi-layer perceptron binary')
+    plt.title('Comparison of Multi-Layer Perceptron Model Results by Year')
+    plt.xlabel('Year')
+    plt.ylabel('Mean Average Error')
+    plt.xticks(np.arange(1999, 2019), rotation='vertical')
+    plt.legend()
+    plt.show()
+
+
+def plot_all_years_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['SGD - Dis', 'SGD - Bin', 'RF - Dis', 'RF - Bin', 'MLP - Dis', 'MLP - Bin']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.25, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison')
+    plt.show()
+
+
+def plot_all_years_dis_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['SGD - Dis', 'RF - Dis', 'MLP - Dis']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.1, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison - Discrete')
+    plt.show()
+
+
+def plot_all_years_bin_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['SGD - Bin', 'RF - Bin', 'MLP - Bin']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.1, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison - Binary')
+    plt.show()
+
+
+def plot_all_years_sgd_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['SGD - Dis', 'SGD - Bin']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.1, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison - Gradient Descent')
+    plt.show()
+
+
+def plot_all_years_rf_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['RF - Dis', 'RF - Bin']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.1, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison - Random Forest')
+    plt.show()
+
+
+def plot_all_years_mlp_results_comparison():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.loc['All']
+    model_types = ['MLP - Dis', 'MLP - Bin']
+    results_df = results_df.loc[model_types].T
+    fig, ax = plt.subplots()
+    res_bar = ax.bar(np.arange(len(results_df.keys())), results_df.values, color=['b', 'r', 'g', 'c', 'y', 'k'])
+    for i in range(len(res_bar)):
+        ax.text(i - 0.1, res_bar[i]._height + 800, round(res_bar[i]._height), fontsize=9)
+    ax.set_xticks(np.arange(len(results_df.keys())))
+    ax.set_xticklabels(model_types)
+    ax.set_xlabel('Model Type')
+    ax.set_ylabel('Errors')
+    ax.set_title('All Years Results Comparison - Multi-Layer Perceptron')
+    plt.show()
+
+
+def plot_most_important_features_sgd_dis():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    all_values = {i: results_df['Most Important Features - SGD Dis'][str(i)].split(', ') for i in range(1999, 2019)}
+    features_set = {i for j in range(1999, 2019) for i in all_values[j]}
+    colors = ['b', 'r', 'g', 'k', 'c', 'orange', 'y']
+    fig, ax = plt.subplots()
+    for feature in features_set:
+        rankings = [all_values[i].index(feature) + 1 if feature in all_values[i] else 0 for i in range(1999, 2019)]
+        ax.plot(np.arange(1999, 2019), rankings, c=colors.pop(), label=feature)
+    plt.legend()
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Ranking')
+    ax.set_xticks(np.arange(1999, 2019))
+    ax.set_xticklabels(np.arange(1999, 2019), rotation='vertical')
+    ax.set_title('Most Important Features Over Time - SGD Discrete')
+    plt.show()
+
+
+def plot_most_important_features_sgd_bin():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    all_values = {i: results_df['Most Important Features - SGD Bin'][str(i)].split(', ') for i in range(1999, 2019)}
+    features_set = {i for j in range(1999, 2019) for i in all_values[j]}
+    colors = ['b', 'r', 'g', 'k', 'c', 'orange', 'y']
+    fig, ax = plt.subplots()
+    for feature in features_set:
+        rankings = [all_values[i].index(feature) + 1 if feature in all_values[i] else 0 for i in range(1999, 2019)]
+        ax.plot(np.arange(1999, 2019), rankings, c=colors.pop(), label=feature)
+    plt.legend()
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Ranking')
+    ax.set_xticks(np.arange(1999, 2019))
+    ax.set_xticklabels(np.arange(1999, 2019), rotation='vertical')
+    ax.set_title('Most Important Features Over Time - SGD Binary')
+    plt.show()
+
+
+def plot_most_important_features_rf_dis():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    all_values = {i: results_df['Most Important Features - RF Dis'][str(i)].split(', ') for i in range(1999, 2019)}
+    features_set = {i for j in range(1999, 2019) for i in all_values[j]}
+    colors = ['b', 'r', 'g', 'k', 'c', 'orange', 'y']
+    fig, ax = plt.subplots()
+    for feature in features_set:
+        rankings = [all_values[i].index(feature) + 1 if feature in all_values[i] else 0 for i in range(1999, 2019)]
+        ax.plot(np.arange(1999, 2019), rankings, c=colors.pop(), label=feature)
+    plt.legend()
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Ranking')
+    ax.set_xticks(np.arange(1999, 2019))
+    ax.set_xticklabels(np.arange(1999, 2019), rotation='vertical')
+    ax.set_title('Most Important Features Over Time - Random Forest Discrete')
+    plt.show()
+
+
+def plot_most_important_features_rf_bin():
+    results_df = pd.read_csv(os.path.join(RESULTS_PATH, 'results.csv'), index_col='Year')
+    results_df = results_df.iloc[:20]
+    all_values = {i: results_df['Most Important Features - RF Bin'][str(i)].split(', ') for i in range(1999, 2019)}
+    features_set = {i for j in range(1999, 2019) for i in all_values[j]}
+    colors = ['b', 'r', 'g', 'k', 'c', 'orange', 'y']
+    fig, ax = plt.subplots()
+    for feature in features_set:
+        rankings = [all_values[i].index(feature) + 1 if feature in all_values[i] else 0 for i in range(1999, 2019)]
+        ax.plot(np.arange(1999, 2019), rankings, c=colors.pop(), label=feature)
+    plt.legend()
+    ax.set_xlabel('Year')
+    ax.set_ylabel('Ranking')
+    ax.set_xticks(np.arange(1999, 2019))
+    ax.set_xticklabels(np.arange(1999, 2019), rotation='vertical')
+    ax.set_title('Most Important Features Over Time - Random Forest Binary')
+    plt.show()
+
+
 # plot_average_price_over_time()
 
 # plot_average_price_over_time_month()
@@ -218,6 +526,40 @@ def plot_bottom_counties_avg_price_over_time():
 
 # plot_num_sales_by_region_over_time()
 
-plot_top_counties_avg_price_over_time()
+# plot_top_counties_avg_price_over_time()
 
 # plot_bottom_counties_avg_price_over_time()
+
+# plot_yearly_mean_std()
+
+# plot_yearly_results_comparison()
+
+# plot_yearly_results_comparison_discrete()
+
+# plot_yearly_results_comparison_binary()
+
+# plot_yearly_results_comparison_sgd()
+
+# plot_yearly_results_comparison_rf()
+
+# plot_yearly_results_comparison_mlp()
+
+# plot_all_years_results_comparison()
+
+# plot_all_years_dis_results_comparison()
+
+# plot_all_years_bin_results_comparison()
+
+# plot_all_years_sgd_results_comparison()
+
+# plot_all_years_rf_results_comparison()
+
+# plot_all_years_mlp_results_comparison()
+
+# plot_most_important_features_sgd_dis()
+
+# plot_most_important_features_sgd_bin()
+
+# plot_most_important_features_rf_dis()
+
+# plot_most_important_features_rf_bin()

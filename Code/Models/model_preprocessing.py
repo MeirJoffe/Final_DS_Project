@@ -8,8 +8,7 @@ def get_preprocessed_df(year):
     :param year: The year.
     :return: A dataframe containing the data.
     """
-    # return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
-    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH_A, 'preprocessed-{}.csv'.format(year)), index_col='id')
+    return pd.read_csv(os.path.join(PREPROCESSED_PRICE_DATA_PATH, 'preprocessed-{}.csv'.format(year)), index_col='id')
 
 
 def convert_categorical_to_binaries(df, column, values_to_drop=()):
@@ -83,8 +82,7 @@ def model_bin_preprocess_all():
     """
     for yr in range(1999, 2019):
         df_yr = model_preprocess_yr(yr)
-        # df_yr.to_csv(os.path.join(MODEL_BIN_DATA_PATH, 'm_b-preprocessed-{}.csv'.format(yr)))
-        df_yr.to_csv(os.path.join(MODEL_BIN_DATA_PATH_A, 'm_b-preprocessed-{}.csv'.format(yr)))
+        df_yr.to_csv(os.path.join(MODEL_BIN_DATA_PATH, 'm_b-preprocessed-{}.csv'.format(yr)))
 
 
 def model_dis_preprocess_all():
@@ -95,12 +93,7 @@ def model_dis_preprocess_all():
     """
     for yr in range(1999, 2019):
         df_yr = model_preprocess_yr(yr, binary=False)
-        # df_yr.to_csv(os.path.join(MODEL_DIS_DATA_PATH, 'm_d-preprocessed-{}.csv'.format(yr)))
-        df_yr.to_csv(os.path.join(MODEL_DIS_DATA_PATH_A, 'm_d-preprocessed-{}.csv'.format(yr)))
-
-
-# model_bin_preprocess_all()
-# model_dis_preprocess_all()
+        df_yr.to_csv(os.path.join(MODEL_DIS_DATA_PATH, 'm_d-preprocessed-{}.csv'.format(yr)))
 
 
 def split_year_to_train_test(year, frac=0.2, binary=False):
@@ -120,11 +113,11 @@ def split_year_to_train_test(year, frac=0.2, binary=False):
     train_df = df_yr.loc[train_indices]
     test_df = df_yr.loc[test_indices]
     if binary:
-        train_df.to_csv(os.path.join(MODEL_BIN_TRAIN_A, 'train-b-{}.csv'.format(year)))
-        test_df.to_csv(os.path.join(MODEL_BIN_TEST_A, 'test-b-{}.csv'.format(year)))
+        train_df.to_csv(os.path.join(MODEL_BIN_TRAIN, 'train-b-{}.csv'.format(year)))
+        test_df.to_csv(os.path.join(MODEL_BIN_TEST, 'test-b-{}.csv'.format(year)))
     else:
-        train_df.to_csv(os.path.join(MODEL_DIS_TRAIN_A, 'train-d-{}.csv'.format(year)))
-        test_df.to_csv(os.path.join(MODEL_DIS_TEST_A, 'test-d-{}.csv'.format(year)))
+        train_df.to_csv(os.path.join(MODEL_DIS_TRAIN, 'train-d-{}.csv'.format(year)))
+        test_df.to_csv(os.path.join(MODEL_DIS_TEST, 'test-d-{}.csv'.format(year)))
 
 
 def split_to_train_test_all_years():
@@ -137,17 +130,11 @@ def split_to_train_test_all_years():
         split_year_to_train_test(yr, binary=True)
 
 
-# split_to_train_test_all_years()
-
-
 def get_len_years():
     """
     A function that calculates the number of rows in each year, i.e. how many homes were sold.
     :return: A dictionary containing the number of homes sold per year.
     """
-    # len_yrs = {1999: 1194146, 2000: 1128619, 2001: 1245137, 2002: 1351018, 2003: 1234779, 2004: 1231248, 2005: 1060845,
-    #            2006: 1325380, 2007: 1271682, 2008: 649287, 2009: 624954, 2010: 662942, 2011: 660773, 2012: 668332,
-    #            2013: 806155, 2014: 971371, 2015: 990175, 2016: 999673, 2017: 989681, 2018: 962579}
     len_yrs = {i: len(get_df_year(i).index) for i in range(1999, 2019)}
     return len_yrs
 
@@ -214,17 +201,12 @@ def put_batches_into_files(batch_num, batch_idx):
         batch_yr_indices = [i for i in batch_indices if i < cum_years[yr]]
         batch_yr = pd.concat([batch_yr, df_yr.loc[batch_yr_indices]], ignore_index=True)
         batch_indices = [i - cum_years[yr] for i in batch_indices if i - cum_years[yr] > 0]
-    batch_yr.to_csv(os.path.join(ALT_DATA_PATH, 'batch-{}.csv'.format(batch_num)))
+    batch_yr.to_csv(os.path.join(DATA_PATH, 'batch-{}.csv'.format(batch_num)))
 
 
-# split_data_into_batches()
-#
-# indices_fname = 'indices.p'
-# indices_file = open(indices_fname, 'rb')
-# ind = pickle.load(indices_file)
-# indices_file.close()
-# tr = ind['train']
-# ts = ind['test']
-# print(len(tr), len(ts), len(tr[0]))
-#
-# put_batches_into_files(0, tr[0])
+####### To complete the model preprocessing
+# model_bin_preprocess_all()
+# model_dis_preprocess_all()
+
+####### To split all of the years to train and test files
+# split_to_train_test_all_years()
