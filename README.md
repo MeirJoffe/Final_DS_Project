@@ -54,12 +54,11 @@ My end-of-bachelor's data science project.
   * Results - contains the model results (errors) in a file called results.csv.
 
 * Other files:
-  * README - this file.
+  * README.md - this file.
   * Pipeline Diagram.pdf - a diagram of the data pipeline from download through preprocessing through model processing.
   * Final_Project_Notebook.ipynb - a notebook containing each of the graphs in the report and the code to create them.
   * Final_Project_Notebook.pdf - same as Final_Project_Notebook.ipynb but in pdf format.
   * Data_Science_Project_Report_Meir_Joffe.docx - the project report in word format.
-  * Data_Science_Project_Report_Meir_Joffe.pdf - the project report in pdf format.
 
 
 ## Instructions to run code:
