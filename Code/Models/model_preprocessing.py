@@ -120,14 +120,14 @@ def split_year_to_train_test(year, frac=0.2, binary=False):
         test_df.to_csv(os.path.join(MODEL_DIS_TEST, 'test-d-{}.csv'.format(year)))
 
 
-def split_to_train_test_all_years():
+def split_to_train_test_all_years(binary=False):
     """
     A function that repeatedly calls split_year_to_train_test for each year and both values for the bool param binary.
+    :binary: A boolean whether to convert the property_type column to 4 binary columns or a discrete column.
     :return: None.
     """
     for yr in range(1999, 2019):
-        split_year_to_train_test(yr)
-        split_year_to_train_test(yr, binary=True)
+        split_year_to_train_test(yr, binary)
 
 
 def get_len_years():
@@ -210,3 +210,4 @@ def put_batches_into_files(batch_num, batch_idx):
 
 ####### To split all of the years to train and test files
 # split_to_train_test_all_years()
+# split_to_train_test_all_years(binary=True)

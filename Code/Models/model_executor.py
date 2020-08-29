@@ -97,6 +97,15 @@ def train_test_model_all_years(model, binary=False, num_parts=20, add_intercept=
 # print(train_test_model_by_year(MLPRegression, binary=True))
 
 
+########## To use to train and test models all years
+# print(train_test_model_all_years(SGDRegression, add_intercept=True, w_bootstrap=True))
+# print(train_test_model_all_years(SGDRegression, binary=True, add_intercept=True, w_bootstrap=True))
+# print(train_test_model_all_years(RandomForestRegression))
+# print(train_test_model_all_years(RandomForestRegression, binary=True))
+# print(train_test_model_all_years(MLPRegression))
+# print(train_test_model_all_years(MLPRegression, binary=True))
+
+
 ########## To use to calculate bootstrap parts
 # binary=True
 # # num_parts=20
@@ -141,12 +150,3 @@ def train_test_model_all_years(model, binary=False, num_parts=20, add_intercept=
 # pickle.dump(to_save, file)
 # file.close()
 
-
-
-########## To use to train and test models all years
-# print(train_test_model_all_years(SGDRegression, add_intercept=True, w_bootstrap=True))
-# print(train_test_model_all_years(SGDRegression, binary=True, add_intercept=True, w_bootstrap=True))
-# print(train_test_model_all_years(RandomForestRegression))
-# print(train_test_model_all_years(RandomForestRegression, binary=True))
-# print(train_test_model_all_years(MLPRegression))
-# print(train_test_model_all_years(MLPRegression, binary=True))
