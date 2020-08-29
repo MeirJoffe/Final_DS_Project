@@ -1,10 +1,10 @@
 # Final_Project
 My end-of-bachelor's data science project.
-Meir Joffe
-324680461
-meir.joffe@mail.huji.ac.il
+### Meir Joffe
+### 324680461
+### meir.joffe@mail.huji.ac.il
 
-Files Included:
+## Files Included:
   
 * Code Files:
   * Models:
@@ -62,7 +62,7 @@ Files Included:
   * Data_Science_Project_Report_Meir_Joffe.pdf - the project report in pdf format.
 
 
-Instructions to run code:
+## Instructions to run code:
 * To run any of the code, the data path to the directory with all the data files needs to be inserted in 
     constants.py line 11.
 * To run with preprocessing, take the initial files and run the commented-out code at the bottom of 
@@ -79,7 +79,7 @@ Instructions to run code:
     (theta) parameters.
 
 
-Instructions to run visualizations:
+## Instructions to run visualizations:
 * To produce the visualizations, the data path needs to be updated to the path to the directory where the data is 
     stored. Once this is done, run each of the markdown sections to produce the graphs. Note that some of the 
     sections use variables that were defined in earlier sections, thus those sections need to be run first.
