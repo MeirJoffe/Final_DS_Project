@@ -46,8 +46,8 @@ Files Included:
     Model_Prop_Dis_Test - the model preprocessed files that have been split into train and test, this is the test data,
         files are called test-d-#YEAR.csv.
     Model_Prop_Dis_Combined - the files containing the data from all the years combined and mixed (property type
-        converted to discrete) and separated into 20 parts, files are called m_d-preprocessed-part-#X.csv where #X is the
-        part number.
+        converted to discrete) and separated into 20 parts, files are called m_d-preprocessed-part-#X.csv where #X is 
+        the part number.
     Bootstrap - the upper and lower bounds for the bootstrap weight vector (theta) parameters (90% confidence
         intervals), files are called bootstrap_#TYPE_#YEAR.p where #TYPE is either bin (for binary), dis (for discrete)
         or all (without year) for the models for all years combined.
@@ -66,14 +66,20 @@ Instructions to run code:
     To run any of the code, the data path to the directory with all the data files needs to be inserted in constants.py 
         line 11.
     To run with preprocessing, take the initial files and run the commented-out code at the bottom of 
-        preprocessing_price_data.py and the commented-out code at the bottom of preprocessing_income_data.py. Then, to 
-        run preprocessing for each of the individual years, run the first commented-out code section and the bottom of 
-        preprocessing_all.py. To run preprocessing for all of the years combined, run the second comment-out code 
-        section. Note this will take time and will create files in the process. Next, go to model_preprocessing.py and 
-        run the commented out code at the bottom (depending on whether you wish to train models for both binary and 
-        discrete models or just one of them, run the appropriate commands). Once this is done, to run the models see 
-        instructions for running code without preprocessing.
+        preprocessing_price_data.py and the commented-out code at the bottom of preprocessing_income_data.py. Then, run 
+        the first commented-out code section and the bottom of preprocessing_all.py. Note this will take time and will 
+        create files in the process. Next, go to model_preprocessing.py and run the commented out code at the bottom 
+        (depending on whether you wish to train models for both binary and discrete models or just one of them, run the 
+        appropriate commands). Once this is done, to run the models see instructions for running code without 
+        preprocessing. After this, if you want to run the models on all of the combined data, go to preprocessing_all.py 
+        and run the second commented-out section.
     To run without preprocessing, go to model_executor.py and choose the model you with to run. Commands for running 
         each of the models, whether by year or all years combined, are commented out at the bottom of the file. 
         Additionally, there is code there to run bootstrap calculations for Stochastic Gradient Descent weight vector 
         (theta) parameters.
+
+
+Instructions to run visualizations:
+    To produce the visualizations, the data path needs to be updated to the path to the directory where the data is 
+        stored. Once this is done, run each of the markdown sections to produce the graphs. Note that some of the 
+        sections use variables that were defined in earlier sections, thus those sections need to be run first.

@@ -232,7 +232,6 @@ def combine_years(binary=False, year_1=1999, year_2=2019, part_1=0, part_2=20):
 
 
 ##### To preprocess for combining all years together
-# preprocess_price_all_years()
 # partition_indices_all_years()
 # separate_years()
 # combine_years()
